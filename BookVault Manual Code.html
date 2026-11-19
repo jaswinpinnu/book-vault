@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Vault — Your Digital Bookshelf</title>
+  <meta name="description" content="Discover, buy and read digital books with BookVault.">
+  <style>
+
+:root {
+    --ink: #eee6d8;
+    --muted: #a49a89;
+    --brand: #c28a48;
+    --brand2: #dfa85f;
+    --paper: #1d1a14;
+    --line: #49402f;
+    --white: #272219;
+    --green: #8bb58a;
+    --shadow: 0 14px 40px #0005;
+    --gold: #c28a48;
+    --cream: #eee6d8;
+    --dark: #1d1a14;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 15px/1.65 Georgia, "Times New Roman", serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button, .btn {
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 12px 20px;
+    background: var(--gold);
+    color: #21180e;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: .25s ease;
+}
+
+.btn:hover, button:hover {
+    background: var(--brand2);
+    border-color: var(--brand2);
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn.secondary, button.secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--line);
+}
+
+.btn.secondary:hover, button.secondary:hover {
+    background: #30271b;
+    border-color: var(--gold);
+}
+
+.btn.ghost, button.ghost {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--line);
+}
+
+.btn.ghost:hover, button.ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* NAVIGATION */
+
+header {
+    min-height: 76px;
+    background: #1d1a14;
+    border-bottom: 1px solid #49402f;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.nav {
+    width: min(1240px, 92%);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.logo {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 25px;
+    letter-spacing: -.8px;
+    color: var(--cream);
+    margin-right: auto;
+}
+
+.logo span {
+    color: var(--gold) !important;
+}
+
+.navlinks {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.navlinks a {
+    color: #c3b9a9;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: .2s;
+}
+
+.navlinks a:hover {
+    color: var(--gold);
+}
+
+.menu {
+    display: none;
+}
+
+/* MAIN */
+
+main {
+    width: min(1160px, 92%);
+    margin: 44px auto 80px;
+    min-height: 65vh;
+}
+
+/* HERO */
+
+.hero {
+    background: #211c14;
+    color: var(--cream);
+    padding: 48px;
+    border: 1px solid #5c472c;
+    border-radius: 0;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    align-items: center;
+    gap: 35px;
+    overflow: hidden;
+    position: relative;
+}
+.hero-art img {
+  display: block;
+  width: 100%;
+  max-width: 320px;   /* adjust to taste */
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .35);
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid #8e6838;
+    opacity: .35;
+    pointer-events: none;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(38px, 5vw, 65px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    font-weight: 700;
+    margin: 15px 0 20px;
+}
+
+.hero p {
+    color: #b8ad9c;
+    max-width: 540px;
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+.hero-art {
+    font-size: 125px;
+    text-align: center;
+    filter: sepia(.6) drop-shadow(0 15px 20px #0009);
+}
+
+.eyebrow {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.hero .eyebrow {
+    color: #d5a15f;
+}
+
+/* SECTIONS */
+
+.section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 55px 0 22px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--line);
+}
+
+.section-head h2 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: 30px;
+    letter-spacing: -.5px;
+    color: var(--cream);
+}
+
+.muted {
+    color: var(--muted);
+}
+
+/* BOOK GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.cover {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    height: auto;
+    background: #34291b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--gold);
+    font-size: 60px;
+    font-weight: 900;
+}
+
+.cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: #211c14;
+}
+
+.book-card {
+    background: #262118;
+    border: 1px solid #51432e;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .3s, border-color .3s;
+}
+
+.book-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+}
+
+.book-body {
+    padding: 17px;
+}
+
+.book-body h3 {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    line-height: 1.3;
+    color: var(--cream);
+    margin: 8px 0;
+}
+
+.category {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.author {
+    font-size: 13px;
+    color: #a99d8b;
+    font-style: italic;
+}
+
+.desc {
+    font-size: 13px;
+    color: #aaa08f;
+    margin: 12px 0;
+    min-height: 38px;
+}
+
+.card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 17px;
+    padding-top: 13px;
+    border-top: 1px solid var(--line);
+}
+
+.price {
+    font-family: Georgia, serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.card-foot .btn {
+    padding: 10px 12px;
+    font-size: 10px;
+}
+
+/* PAGE HEADINGS */
+
+.page-title {
+    margin: 0 0 7px;
+    font-family: Georgia, serif;
+    font-size: 39px;
+    letter-spacing: -1px;
+    color: var(--cream);
+}
+
+/* SEARCH */
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.field {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #574a35;
+    border-radius: 2px;
+    background: #29241b;
+    color: var(--cream);
+    outline: none;
+}
+
+.field::placeholder {
+    color: #938875;
+}
+
+.field:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px #c28a4820;
+}
+
+.toolbar .field {
+    max-width: 340px;
+}
+
+.toolbar select {
+    max-width: 210px;
+}
+
+/* BOOK DETAILS */
+
+.detail {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 42px;
+    align-items: start;
+    background: #242017;
+    padding: 32px;
+    border-radius: 0;
+    border: 1px solid #59472e;
+}
+
+.detail .cover {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 2 / 3;
+    height: auto;
+    border: 5px double #88643a;
+}
+
+.detail h1 {
+    font-family: Georgia, serif;
+    font-size: 43px;
+    line-height: 1.1;
+    color: var(--cream);
+    margin: 12px 0;
+}
+
+.detail p {
+    color: #b9ae9d;
+    line-height: 1.9;
+}
+
+.detail .price {
+    font-size: 30px;
+    margin: 24px 0;
+}
+
+.info {
+    background: #30271b;
+    padding: 17px;
+    border-left: 3px solid var(--gold);
+    border-radius: 0;
+    color: #d3b98e;
+    margin-top: 25px;
+    font-size: 13px;
+}
+
+/* LOGIN / REGISTER */
+
+.auth-wrap {
+    max-width: 470px;
+    margin: 45px auto;
+}
+
+.panel {
+    padding: 30px;
+    background: #262118;
+    border: 1px solid #59472e;
+}
+
+.panel h1 {
+    font-family: Georgia, serif;
+    color: var(--cream);
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.panel h2 {
+    color: var(--cream);
+}
+
+.form {
+    display: grid;
+    gap: 15px;
+    margin-top: 22px;
+}
+
+.form label {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: #d7c8b1;
+}
+
+.form label input {
+    margin-top: 7px;
+}
+
+.message {
+    font-size: 13px;
+    color: #e18d79;
+    min-height: 18px;
+}
+
+.google-btn {
+    width: 100%;
+    padding: 13px 16px;
+    margin-top: 15px;
+    background: #eee6d8;
+    color: #252017;
+    border: 1px solid #c6b99f;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.google-btn:hover {
+    background: #fff9ed;
+    border-color: var(--gold);
+}
+
+.auth-link {
+    color: var(--gold);
+    text-decoration: underline;
+}
+
+/* CHECKOUT */
+
+.checkout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.checkout .panel {
+    overflow: visible;
+}
+
+.qr {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    width: max-content;
+    margin: 12px auto;
+}
+
+.history {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.history-row {
+    padding: 15px;
+    background: #2a251c;
+    border: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--cream);
+}
+
+.status {
+    color: var(--gold);
+    font-weight: 800;
+}
+
+/* PDF READER */
+
+.reader {
+    background: #282219;
+    border: 1px solid #655032;
+    border-radius: 2px;
+    padding: 16px;
+}
+
+.readerbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: var(--cream);
+    margin-bottom: 14px;
+}
+
+.readerbar strong {
+    margin-right: auto;
+    font-family: Georgia, serif;
+}
+
+.readerbar button {
+    padding: 9px 12px;
+}
+
+.pdfstage {
+    background: #484034;
+    border-radius: 2px;
+    min-height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    overflow: auto;
+}
+
+.pdfstage canvas {
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 8px 30px #0008;
+}
+
+/* EMPTY STATES */
+
+.empty {
+    padding: 40px;
+    text-align: center;
+    background: #262118;
+    border: 1px dashed #705936;
+    border-radius: 2px;
+    color: var(--muted);
+    grid-column: 1 / -1;
+}
+
+.empty a {
+    color: var(--gold);
+}
+
+/* FOOTER */
+
+footer {
+    background: #19160f;
+    border-top: 1px solid #49402f;
+    padding: 27px;
+    text-align: center;
+    color: #938875;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+/* NOTICES */
+
+.notice {
+    padding: 14px 16px;
+    background: #302719;
+    border: 1px solid #806034;
+    color: #e0bd82;
+    border-radius: 2px;
+    font-size: 13px;
+    margin: 15px 0;
+}
+
+.category-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.category-chip {
+    padding: 10px 17px;
+    border-radius: 2px;
+    background: #292319;
+    border: 1px solid #665032;
+    color: var(--gold);
+    font-weight: 750;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: .2s;
+}
+
+.category-chip:hover {
+    background: #49351d;
+    color: #fff0d8;
+}
+
+/* LOADING SCREEN */
+
+.splash {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: #1d1a14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream);
+    transition: opacity .45s ease, visibility .45s ease;
+}
+
+.splash.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-inner {
+    text-align: center;
+    width: min(340px, 84%);
+}
+
+.splash-logo {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: var(--gold);
+}
+
+.splash-book {
+    font-size: 54px;
+    animation: bob 1.1s ease-in-out infinite alternate;
+}
+
+.progress-track {
+    height: 4px;
+    background: #ffffff20;
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 24px 0 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: var(--gold);
+    border-radius: 99px;
+    animation: loadbar 1.7s ease forwards;
+}
+
+@keyframes loadbar {
+    to { width: 100%; }
+}
+
+@keyframes bob {
+    to { transform: translateY(-10px) rotate(-5deg); }
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero {
+        padding: 35px;
+        grid-template-columns: 1fr;
+    }
+
+    .hero-art {
+        display: none;
+    }
+
+    .detail {
+        grid-template-columns: 260px 1fr;
+        gap: 25px;
+    }
+
+    .detail .cover {
+        max-width: 260px;
+    }
+
+    .checkout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    header {
+        min-height: 64px;
+    }
+
+    .nav {
+        flex-wrap: wrap;
+        padding: 12px 0;
+    }
+
+    .menu {
+        display: inline-flex;
+    }
+
+    .navlinks {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 0;
+    }
+
+    .navlinks.open {
+        display: flex;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .book-body {
+        padding: 12px;
+    }
+
+    .book-body h3 {
+        font-size: 16px;
+    }
+
+    .cover {
+        aspect-ratio: 2 / 3;
+    }
+
+    .card-foot {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .hero {
+        padding: 30px 23px;
+    }
+
+    .detail {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .detail .cover {
+        width: 100%;
+        max-width: 300px;
+        margin: auto;
+    }
+
+    .detail h1 {
+        font-size: 32px;
+    }
+
+    .page-title {
+        font-size: 31px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .section-head h2 {
+        font-size: 24px;
+    }
+
+    .history-row {
+        flex-direction: column;
+    }
+}
+  </style>
+</head>
+<body>
+<div class="splash" id="splash" aria-label="Loading BookVault">
+  <div class="splash-inner">
+    <div class="splash-logo">BookVault.</div>
+    <p style="color:#b9a98f">A world of stories awaits.</p>
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <small style="color:#b9a98f">OPENING YOUR BOOKSHELF</small>
+  </div>
+</div>
+<header><nav class="nav">
+  <a class="logo" href="?page=home">BookVault<span style="color:#202033">.</span></a>
+  <button class="menu ghost" id="menuBtn" type="button">☰</button>
+  <div class="navlinks" id="navlinks">
+    <a href="?page=home">Home</a><a href="?page=shop">Explore books</a><a href="?page=library">My Library</a>
+    <a href="?page=login" id="loginLink">Login</a><a href="?page=register" id="registerLink">Register</a>
+    <button class="ghost" id="logoutBtn" hidden type="button">Logout</button>
+  </div>
+</nav></header>
+<main id="app"><div class="empty">Loading BookVault…</div></main>
+<footer>© <span id="year"></span> BookVault · Read more. Dream bigger.</footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+const firebaseConfig = {
+  apiKey: "AIzaSyDvAGMwZWs0Swe6voBnrgTEV5Sb0S6MXEQ",
+  authDomain: "book-vault-39b48.firebaseapp.com",
+  projectId: "book-vault-39b48",
+  storageBucket: "book-vault-39b48.firebasestorage.app",
+  messagingSenderId: "830454905436",
+  appId: "1:830454905436:web:e5325325729d2486738499",
+  measurementId: "G-DNQN9S1TFE"
+};
+const STORE_UPI_ID = "9704974080@ybl";
+const STORE_UPI_NAME = "BookVault";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+const root = document.getElementById("app");
+let currentUser = null, books = [], owned = new Set(), activePdf = null, pageNo = 1, zoom = 1.15;
+const requestedPage = new URLSearchParams(location.search).get("page");
+const page = requestedPage || "loading";
+const bookId = new URLSearchParams(location.search).get("id");
+const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const money = value => new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0}).format(Number(value)||0);
+const go = (name,id) => location.href = `?page=${encodeURIComponent(name)}${id ? `&id=${encodeURIComponent(id)}` : ""}`;
+document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("menuBtn").onclick = () => document.getElementById("navlinks").classList.toggle("open");
+document.getElementById("logoutBtn").onclick = async () => { await signOut(auth); go("home"); };
+const MANUAL_BOOKS = [
+  {
+    id: "mens fashions",
+    title: "Mens styling and grooming",
+    author: "JASWIN PINNU",
+    category: "MENS",
+    price: 399,
+    description: "Learn men's fashion, skincare, haircare and grooming to develop your own unique style.\
+                  Look sharp, build confidence and upgrade your everyday appearance!",
+    coverUrl: "stylingcoverphoto.jpeg",
+    pdf: "mens-style-and-grooming.pdf",
+  },
+  {
+    id: "student edition",
+    title: "student level up edition",
+    author: "JASWIN PINNU",
+    category: "MENS",
+    price: 399,
+    description: "A comprehensive guide for students to excel in their academic journey and beyond.",
+    coverUrl: "student level up.jpeg",
+    pdf: "student level up edition.pdf",
+  },
+  {
+    id: "womens carrer edition",
+    title:"the art of becoming that girl",
+    author:"JASWIN PINNU",
+    category:"WOMENS",
+    price:450,
+    description:"A guide to help women navigate their careers, build confidence, and acheive success in the professional world.",
+    coverUrl:"art of being that girl.png",
+    pdf:"The Art of Becoming That Girl.pdf",
+  },
+  {
+    id: "90 days man upgrade",
+    title:"the 90 day man upgrade",
+    author:"JASWIN PINNU",
+    category:"MENS",
+    price:450,
+    description:"A guide to help men upgrade their lives in 90 days.",
+    coverUrl:"90 days upgrade.png",
+    pdf:"90 Day Man Upgrade.pdf",
+  },
+  {
+    id: "build your body at home",
+    title: "beginners guide to build your muscle at home",
+    author: "JASWIN PINNU",
+    category: "MENS",
+    price: 399,
+    description: "A comrehensive guide for bediners to build their muscle at home without any equipment.",
+    coverUrl: "beginer muscle guide.jpg",
+    pdf: "Beginers guide to build your muscle at home.pdf",
+  },
+  {
+    id:"how to dress better on a budget",
+    title:"how to dress better on a budget",
+    author:"JASWIN PINNU",
+    category:"MENS",
+    price:399,
+    description:"A guide to help you dress better without breaking the bank.",
+    coverUrl:"how to dress on a budget.jpg",
+    pdf:"How to Dress Better on a Budget.pdf"
+  },
+  {
+  id:"stop being lazy",
+  title:"how to stop being lazy",
+  author:"JASWIN",
+  category:"MENS",
+  price:349,
+  description:"meluko legu mee amma nanna lani mee guruvulani garva padela chey",
+  coverUrl:"HOW TO STOP BEING LAZY.png",
+  pdf:"How to Stop Being Lazy.pdf",
+  },
+  {
+    id:"mens skin",
+    title:"UNDERSTANDING MENS SKIN",
+    author:"jaswin",
+    category:"MENS",
+    price:"299",
+    description:"Stop guessing in the mirror. Grab your copy of Understanding Mens Skin and build a routine that delivers real results",
+    coverUrl:"understanding mens skin.png",
+    pdf:"UNDERSTANDING MENS SKIN.pdf",
+  },
+  {
+    id:"dating",
+    title:"The Modern Mans Guide To Dating",
+    author:"JASWIN",
+    category:"MENS",
+    price:"300",
+    description:"love chesey mundu ee book chaduko",
+    coverUrl:"dating.jpeg",
+    pdf:"The Modern Mans Guide To Dating.pdf",
+  },
+  {
+    id:"personal finance",
+    title:"THE BEGINERS GUIDE TO PERSONAL FINANCE",
+    author:"JASWIN",
+    category:"MENS",
+    price:"399",
+    description:"dabbulu ela sampadiyalo telusuko",
+    coverUrl:"personal finance.png",
+    pdf:"The Beginers Guide to Personal Finance.pdf",
+  },
+  {
+    id:"student to successful man",
+    title:"student to successful man",
+    author:"JASWIN",
+    category:"MENS",
+    price:300,
+    description:"best guide to success for students",
+    coverUrl:"Student to Success.png",
+    pdf:"Student to Successful Man.pdf",
+  },
+  {
+    id:"hairstyles",
+    title:"EVERYDAY HAIRSTYLES FOR WOMEN",
+    author:"jaswin",
+    category:"WOMENS",
+    price:"249",
+    description:"ee hairstyles try cheste heroine aipotav",
+    coverUrl:"EVERYDAY HAIRSTYLES.png",
+    pdf:"Everyday Hairstyles for Girls.pdf",
+  },
+  {
+    id:"romanticize",
+    title:"HOW TO ROMANTICIZE YOUR EVERYDAY LIFE",
+    author:"jaswin",
+    category:"WOMENS",
+    price:"249",
+    description:"behave romantic in your life",
+    coverUrl:"romanticize.jpeg",
+    pdf:"How to Romanticize Your Everyday Life.pdf",
+  },
+  {
+    id:"beauty",
+    title:"BUDGET FRIENDLY BEAUTY BIBLE",
+    author:"jaswin",
+    category:"WOMENS",
+    price:"299",
+    description:"beauty is the secret of ur confidence",
+    coverUrl:"budget friendly beauty.png",
+    pdf:"Budget Friendly Beauty Bible.pdf",
+  },
+  {
+    id:"frienship",
+    title:"HOW TO RECOGNIZE TOXIC FRIENDSHIP",
+    author:"jaswin",
+    category:"WOMENS",
+    price:299,
+    description:"friendship is important",
+    coverUrl:"How to Recognize Toxic Friendship.png",
+    pdf:"How to Recognize Toxic Friendship.pdf",
+  },
+  {
+    id:"relationship",
+    title:"HEALTHY RELATIONSHIPS",
+    author:"jaswin",
+    category:"WOMENS",
+    price:279,
+    description:"lover ni set chesukovalante idi choodu",
+    coverUrl:"healthy relationship.png",
+    pdf:"healthy relationships.pdf",
+  },
+  {
+    id:"sex life",
+    title:"relationship lo sex life boost cheyandi",
+    author:"jaswin",
+    category:"SEX",
+    price:279,
+    description:"relationship lo private life boost cheyali ante idi chaduko",
+    coverUrl:"Relationship Lo Sex Life Boost Cheyandi.jpeg",
+    pdf:"Relationship Lo Sex Life Boost Cheyandi.pdf",
+  },
+  {
+    id:"womens orgasm",
+    title:"Why Women Struggle to Reach Orgasm",
+    author:"jaswin",
+    category:"SEX",
+    price:279,
+    description:"why women struggle to reach orgasm",
+    coverUrl:"Why Women Struggle to Reach Orgasm.jpeg",
+    pdf:"Why Women Struggle to Reach Orgasm.pdf",
+  },
+  {
+    id:"body confidence",
+    title:"Boobs and Body Confidence",
+    author:"jaswin",
+    category:"SEX",
+    price:299,
+    description:"your body your care",
+    coverUrl:"Boobs and Body Confidence.jpeg",
+    pdf:"Boobs annd Body Confidence.pdf",
+  },
+  {
+    id:"sexual confidence",
+    title:"Sex After Marriage",
+    author:"jaswin",
+    category:"SEX",
+    price:299,
+    description:"sex chese mundu idi chadavandi",
+    coverUrl:"Sex After Marriage.jpeg",
+    pdf:"Sex After Marriage.pdf",
+  },
+  {
+    id:"girls body",
+    title:"Ass curves confidence",
+    author:"jaswin",
+    category:"SEX",
+    price:299,
+    description:"caring your body is important",
+    coverUrl:"ass curves confidence.jpeg",
+    pdf:"Ass curves confidence.pdf",
+  },
+  {
+    id:"sexual health",
+    title:"masturbation myths vs facts",
+    author:"jaswin",
+    category:"SEX",
+    price:299,
+    description:"Discover the truth about masturbation, dick size, sperm, porn, and men's sexual health as we bust common myths with real science and zero bullshit.",
+    coverUrl:"Masturbation Myths vs Facts.png",
+    pdf:"Masturbation Myths vs Facts.pdf",
+  },
+];
+
+async function loadBooks(){
+  books = MANUAL_BOOKS.filter(b=>b.active!==false);
+}
+async function loadOwned(){
+  owned.clear();
+  if(!currentUser) return;
+  const snap = await getDocs(collection(db,"users",currentUser.uid,"purchases"));
+  snap.forEach(d=>owned.add(d.id));
+}
+function card(b){
+  const cover = b.coverUrl ? `<img src="${esc(b.coverUrl)}" alt="${esc(b.title)}">` : esc((b.title||"B").slice(0,1).toUpperCase());
+  return `<article class="book-card"><div class="cover">${typeof cover==="string"&&b.coverUrl?cover:cover}</div><div class="book-body"><div class="category">${esc(b.category||"General")}</div><h3>${esc(b.title)}</h3><div class="author">By ${esc(b.author||"BookVault")}</div><p class="desc">${esc(b.description||"Digital book")}</p><div class="card-foot"><span class="price">${money(b.price)}</span><a class="btn" href="?page=book&id=${encodeURIComponent(b.id)}">View book</a></div></div></article>`;
+}
+function empty(text){return `<div class="empty">${text}</div>`;}
+function shell(title,sub=""){return `<h1 class="page-title">${title}</h1>${sub?`<p class="muted">${sub}</p>`:""}`;}
+async function renderHome(){
+  await loadBooks();
+  const categories=[...new Set(books.map(b=>b.category||"General"))];
+  root.innerHTML = `<section class="hero"><div><div class="eyebrow">Your next chapter starts here</div><h1>Stories worth<br>staying up for.</h1><p>Discover digital books, build your personal library and read wherever life takes you.</p><a class="btn" href="?page=shop">Explore books →</a></div><div class="hero-art">
+  <img src="hero image.png" alt="Vintage by Ash Davies book cover">
+</div></section><div class="section-head"><div><div class="eyebrow">Browse by interest</div><h2>Book categories</h2></div></div><div class="category-list">${categories.map(c=>`<a class="category-chip" href="?page=shop&category=${encodeURIComponent(c)}">${esc(c)}</a>`).join("")||`<span class="muted">Categories will appear when books are added.</span>`}</div><div class="section-head"><div><div class="eyebrow">Handpicked for you</div><h2>Featured books</h2></div><a class="btn secondary" href="?page=shop">View all books</a></div><div class="grid">${books.slice(0,4).map(card).join("")||empty("No books added yet. Add your book details to the MANUAL_BOOKS array in this file.")}</div>`;
+}
+async function renderShop(){
+  await loadBooks();
+  root.innerHTML = `${shell("Explore books","Find your next favourite read.")}<div class="toolbar"><input class="field" id="search" placeholder="Search title, author or keyword"><select class="field" id="category"><option value="all">All categories</option>${[...new Set(books.map(b=>b.category||"General"))].map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("")}</select></div><div class="grid" id="bookGrid"></div>`;
+  const requestedCategory=new URLSearchParams(location.search).get("category");
+  if(requestedCategory && [...document.getElementById("category").options].some(o=>o.value===requestedCategory)) document.getElementById("category").value=requestedCategory;
+  const draw=()=>{const term=document.getElementById("search").value.toLowerCase(),cat=document.getElementById("category").value;const list=books.filter(b=>[b.title,b.author,b.description,b.category].join(" ").toLowerCase().includes(term)&&(cat==="all"||(b.category||"General")===cat));document.getElementById("bookGrid").innerHTML=list.map(card).join("")||empty("No matching books found.");};
+  document.getElementById("search").oninput=draw;document.getElementById("category").onchange=draw;draw();
+}
+async function renderBook() {
+  await loadBooks();
+  await loadOwned();
+
+  const b = books.find(x => x.id === bookId);
+
+  if (!b) {
+    root.innerHTML = empty(
+      "Book not found. <a href='?page=shop'>Return to shop</a>"
+    );
+    return;
+  }
+
+  const cover = b.coverUrl
+    ? `<img src="${esc(b.coverUrl)}" alt="${esc(b.title)}">`
+    : esc((b.title || "B").slice(0, 1).toUpperCase());
+
+  root.innerHTML = `
+    <section class="detail">
+      <div class="cover">${cover}</div>
+
+      <div>
+        <div class="eyebrow">${esc(b.category || "General")}</div>
+
+        <h1>${esc(b.title)}</h1>
+
+        <p class="author">
+          By ${esc(b.author || "BookVault")}
+        </p>
+
+        <p>
+          ${esc(b.description || "A digital book ready for your library.")}
+        </p>
+
+        <div class="price">${money(b.price)}</div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+          ${
+            owned.has(b.id)
+              ? `<a class="btn" href="?page=reader&id=${encodeURIComponent(b.id)}">
+                   Read book
+                 </a>`
+              : `<a class="btn" href="?page=checkout&id=${encodeURIComponent(b.id)}">
+                   Buy this book
+                 </a>`
+          }
+
+          <button
+            class="btn secondary"
+            type="button"
+            id="shareBookBtn">
+            ↗ Share book
+          </button>
+
+        </div>
+
+        <p class="message" id="shareBookMessage"></p>
+
+        <div class="info">
+          Digital PDF book. Access is added to your library only
+          after payment is manually verified and approved.
+        </div>
+
+      </div>
+    </section>
+  `;
+
+  // SHARE BOOK
+  document.getElementById("shareBookBtn").onclick = async () => {
+
+    const shareUrl = new URL(
+      `?page=book&id=${encodeURIComponent(b.id)}`,
+      location.href
+    ).href;
+
+    const shareData = {
+      title: `${b.title} | BookVault`,
+      text: `Check out "${b.title}" by ${b.author || "BookVault"} on BookVault!`,
+      url: shareUrl
+    };
+
+    const message = document.getElementById("shareBookMessage");
+
+    try {
+
+      if (navigator.share) {
+
+        await navigator.share(shareData);
+
+        message.style.color = "var(--green)";
+        message.textContent = "Book shared successfully.";
+
+      } else if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+
+        await navigator.clipboard.writeText(shareUrl);
+
+        message.style.color = "var(--green)";
+        message.textContent = "Book link copied successfully!";
+
+      } else {
+
+        window.prompt("Copy this book link:", shareUrl);
+
+      }
+
+    } catch (error) {
+
+      if (error.name !== "AbortError") {
+        message.style.color = "#b42318";
+        message.textContent = "Unable to share. Please try again.";
+      }
+
+    }
+
+  };
+}
+async function renderAuth(register=false){
+root.innerHTML = `
+<div class="auth-wrap">
+    <section class="panel">
+        <div class="eyebrow">Welcome to BookVault</div>
+
+        <h1>${register ? "Create your account" : "Welcome back"}</h1>
+
+        <p class="muted">
+            ${register
+                ? "Join and start building your bookshelf."
+                : "Log in to access your digital library."
+            }
+        </p>
+
+        <form class="form" id="authForm">
+
+            <label>
+                Email address
+                <input class="field" id="email"
+                    type="email" required autocomplete="email">
+            </label>
+
+            <label>
+                Password
+                <input class="field" id="password"
+                    type="password" minlength="6" required
+                    autocomplete="${register ? "new-password" : "current-password"}">
+            </label>
+
+            <button id="authBtn">
+                ${register ? "Create account" : "Login"}
+            </button>
+
+            <div class="message" id="authMessage"></div>
+        </form>
+
+        ${register ? `
+           <button type="button" class="google-btn" id="googleSignInBtn">
+    <svg class="google-logo"
+         xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 48 48"
+         width="22"
+         height="22">
+        <path fill="#4285F4"
+          d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11c-.5 2.5-1.9 4.6-4 6v5h6.5c3.8-3.5 6.1-8.6 6.1-14.7z"/>
+        <path fill="#34A853"
+          d="M24 44c5.4 0 9.9-1.8 13.2-4.8l-6.5-5c-1.8 1.2-4 1.9-6.7 1.9-5.1 0-9.4-3.4-10.9-8H6.4v5.1C9.7 39.5 16.3 44 24 44z"/>
+        <path fill="#FBBC05"
+          d="M13.1 28.1a12 12 0 0 1 0-8.2v-5.1H6.4a20 20 0 0 0 0 18.4l6.7-5.1z"/>
+        <path fill="#EA4335"
+          d="M24 11.9c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 5.9 29.4 4 24 4 16.3 4 9.7 8.5 6.4 14.8l6.7 5.1c1.5-4.6 5.8-8 10.9-8z"/>
+    </svg>
+    Continue with Google
+</button>
+        ` : ""}
+
+        ${!register ? `
+          <p>
+    <a class="auth-link" href="?page=forgot">
+        Forgot Password?
+    </a>
+</p>
+        ` : ""}
+
+        ${register ? `
+            <p class="muted">
+                Already registered?
+                <a class="auth-link" href="?page=login">Login</a>
+            </p>
+        ` : `
+            <p class="muted">
+                New to BookVault?
+                <a class="auth-link" href="?page=register">Create an account</a>
+            </p>
+        `}
+
+    </section>
+</div>
+`;
+  document.getElementById("authForm").onsubmit=async e=>{e.preventDefault();const btn=document.getElementById("authBtn"),msg=document.getElementById("authMessage");btn.disabled=true;msg.textContent="";try{const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;if(register)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);go("library");}catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}};
+  const googleSignInBtn = document.getElementById("googleSignInBtn");
+  if (googleSignInBtn) {
+    googleSignInBtn.onclick = async () => {
+      const msg = document.getElementById("authMessage");
+      googleSignInBtn.disabled = true;
+      msg.style.color = "#b42318";
+      msg.textContent = "";
+
+      try {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+        await signInWithPopup(auth, provider);
+        go("library");
+      } catch (err) {
+        if (err.code === "auth/popup-closed-by-user") {
+          msg.textContent = "Google sign-in was cancelled.";
+        } else if (err.code === "auth/popup-blocked") {
+          msg.textContent = "Your browser blocked the sign-in popup. Allow popups and try again.";
+        } else {
+          msg.textContent = err.message || "Google sign-in failed. Please try again.";
+        }
+      } finally {
+        googleSignInBtn.disabled = false;
+      }
+    };
+  }
+
+  const forgot=document.getElementById("forgotPassword");
+  if(forgot)forgot.onclick=async e=>{e.preventDefault();const email=document.getElementById("email").value.trim(),msg=document.getElementById("authMessage");if(!email){msg.textContent="Enter your email address first.";return;}try{await sendPasswordResetEmail(auth,email);msg.style.color="var(--green)";msg.textContent="Password reset email sent. Check your inbox."; }catch(err){msg.textContent=err.message;}};
+}
+async function renderLibrary(){
+  if(!currentUser){root.innerHTML=`<section class="panel">${shell("My Library","Log in to see your purchased books.")}<a class="btn" href="?page=login">Login</a></section>`;return;}
+  await loadBooks();await loadOwned();
+  const mine=books.filter(b=>owned.has(b.id));
+  root.innerHTML=`${shell("My Library",`${mine.length} book${mine.length===1?"":"s"} in your collection.`)}<div class="grid">${mine.map(b=>`<article class="book-card"><div class="cover">${b.coverUrl?`<img src="${esc(b.coverUrl)}" alt="${esc(b.title)}">`:esc((b.title||"B")[0])}</div><div class="book-body"><div class="category">${esc(b.category||"General")}</div><h3>${esc(b.title)}</h3><div class="author">By ${esc(b.author||"BookVault")}</div><div class="card-foot"><a class="btn" href="?page=reader&id=${encodeURIComponent(b.id)}">Read now</a></div></div></article>`).join("")||empty("Your shelf is waiting. Approved purchases will appear here. <a href='?page=shop'>Explore books</a>")}</div><div class="section-head"><h2>Payment requests</h2></div><div class="history" id="history">Loading payment history…</div>`;
+  try{const req=await getDocs(query(collection(db,"users",currentUser.uid,"requests"),orderBy("createdAt","desc")));document.getElementById("history").innerHTML=req.empty?"No payment requests yet.":req.docs.map(d=>{const r=d.data();return `<div class="history-row"><span>${esc(r.bookTitle)} · Ref: ${esc(r.upiReference)}</span><span class="status">${esc(r.status||"pending")}</span></div>`;}).join("");}catch(e){document.getElementById("history").textContent="Could not load payment history.";}
+}
+async function renderCheckout(){
+  if(!currentUser){go("login");return;}
+  await loadBooks();const b=books.find(x=>x.id===bookId);
+  if(!b){root.innerHTML=empty("Book not found.");return;}
+  const upiUri=`upi://pay?${new URLSearchParams({pa:STORE_UPI_ID,pn:STORE_UPI_NAME,am:Number(b.price).toFixed(2),cu:"INR",tn:`BookVault ${b.id}`})}`;
+  root.innerHTML=`${shell("Checkout & payment","Complete your UPI payment, then submit the transaction reference.")}<div class="checkout"><section class="panel"><div class="eyebrow">Order summary</div><h2>${esc(b.title)}</h2><p class="muted">By ${esc(b.author||"BookVault")}</p><h2>${money(b.price)}</h2><div class="notice">Please pay the exact amount. Your book will be unlocked only after an administrator verifies your payment.</div></section><section class="panel"><div class="eyebrow">Pay using UPI</div><div class="qr" id="qr"><div id="qrCode"></div></div><p style="text-align:center">Pay to <strong>${esc(STORE_UPI_ID)}</strong></p><p style="text-align:center"><a class="btn secondary" href="${esc(upiUri)}">Open UPI app</a></p><form class="form" id="paymentForm"><label>UPI transaction ID / UTR<input class="field" id="utr" required minlength="8" maxlength="40" placeholder="Enter transaction reference"></label><button id="submitPayment">Submit payment details</button><div class="message" id="paymentMsg"></div></form></section></div>`;
+  if(STORE_UPI_ID!=="your-upi-id@bank"){
+    const script=document.createElement("script");script.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";script.onload=()=>new QRCode(document.getElementById("qrCode"),{text:upiUri,width:170,height:170});document.head.appendChild(script);
+  }else{document.getElementById("qr").innerHTML="<p class='muted'>Set STORE_UPI_ID in this file to display your payment QR.</p>";}
+  document.getElementById("paymentForm").onsubmit=async e=>{e.preventDefault();const utr=document.getElementById("utr").value.trim(),msg=document.getElementById("paymentMsg"),btn=document.getElementById("submitPayment");if(!/^[A-Za-z0-9-]{8,40}$/.test(utr)){msg.textContent="Enter a valid transaction reference (8–40 characters).";return;}btn.disabled=true;try{await addDoc(collection(db,"users",currentUser.uid,"requests"),{bookId:b.id,bookTitle:b.title,amount:Number(b.price),currency:"INR",paymentMethod:"UPI",upiReference:utr,status:"pending",createdAt:serverTimestamp()});msg.style.color="var(--green)";msg.textContent="Details submitted. Your payment is awaiting verification.";btn.textContent="Submitted";}catch(err){msg.textContent="Could not submit. "+err.message;btn.disabled=false;}};
+}
+async function renderForgotPassword() {
+    root.innerHTML = `
+        <div class="auth-wrap">
+            <section class="panel">
+
+                <div class="eyebrow">Account Recovery</div>
+
+                <h1>Forgot Password?</h1>
+
+                <p class="muted">
+                    Don't worry! Enter your registered email address.
+                    We'll send you a password reset link.
+                </p>
+
+                <form class="form" id="resetForm">
+
+                    <label>
+                        Email address
+                        <input
+                            class="field"
+                            id="resetEmail"
+                            type="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </label>
+
+                    <button type="submit" id="resetBtn">
+                        Send Reset Link
+                    </button>
+
+                    <div class="message" id="resetMessage"></div>
+
+                </form>
+
+                <p class="muted">
+                    Remember your password?
+                    <a class="auth-link" href="?page=login">
+                        Back to Login
+                    </a>
+                </p>
+
+            </section>
+        </div>
+    `;
+
+    document.getElementById("resetForm").onsubmit = async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("resetEmail").value.trim();
+        const btn = document.getElementById("resetBtn");
+        const message = document.getElementById("resetMessage");
+
+        btn.disabled = true;
+        message.textContent = "";
+
+        try {
+            await sendPasswordResetEmail(auth, email);
+
+            message.style.color = "var(--green)";
+            message.textContent =
+                "Password reset link sent! Check your email inbox.";
+
+        } catch (error) {
+            message.style.color = "#b42318";
+            message.textContent = error.message;
+
+        } finally {
+            btn.disabled = false;
+        }
+    };
+}
+async function renderReader(){
+  if(!currentUser){go("login");return;}
+  await loadBooks();await loadOwned();const b=books.find(x=>x.id===bookId);
+  if(!b||!owned.has(bookId)){root.innerHTML=empty("This book is not in your library. <a href='?page=library'>Go to My Library</a>");return;}
+  root.innerHTML=`${shell("Book reader",esc(b.title))}<section class="reader"><div class="readerbar"><strong id="readerTitle">${esc(b.title)}</strong><button class="secondary" id="prev">← Previous</button><span id="pageLabel">Page 1</span><button class="secondary" id="next">Next →</button><button class="ghost" id="zoomOut">−</button><button class="ghost" id="zoomIn">+</button></div><div class="pdfstage"><canvas id="pdfCanvas"></canvas></div><p id="readerMsg" style="color:white;text-align:center"></p></section>`;
+  try{
+    // Load the PDF directly from your local project folder.
+    activePdf = await pdfjsLib.getDocument(b.pdf).promise;
+    pageNo = 1;
+    await drawPdf();
+  }catch(e){
+    document.getElementById("readerMsg").textContent =
+      "Could not load the PDF. Check that this file exists: " + b.pdf + ". " + e.message;
+  }
+  document.getElementById("prev").onclick=async()=>{if(activePdf&&pageNo>1){pageNo--;await drawPdf();}};
+  document.getElementById("next").onclick=async()=>{if(activePdf&&pageNo<activePdf.numPages){pageNo++;await drawPdf();}};
+  document.getElementById("zoomIn").onclick=async()=>{zoom=Math.min(2.2,zoom+.15);if(activePdf)await drawPdf();};
+  document.getElementById("zoomOut").onclick=async()=>{zoom=Math.max(.65,zoom-.15);if(activePdf)await drawPdf();};
+}
+async function drawPdf(){const pg=await activePdf.getPage(pageNo),viewport=pg.getViewport({scale:zoom}),canvas=document.getElementById("pdfCanvas");canvas.width=viewport.width;canvas.height=viewport.height;await pg.render({canvasContext:canvas.getContext("2d"),viewport}).promise;document.getElementById("pageLabel").textContent=`${pageNo} / ${activePdf.numPages}`;document.getElementById("readerMsg").textContent="";}
+
+await new Promise(resolve=>{
+  const unsubscribe=onAuthStateChanged(auth,user=>{
+    currentUser=user;
+    document.getElementById("loginLink").hidden=!!user;
+    document.getElementById("registerLink").hidden=!!user;
+    document.getElementById("logoutBtn").hidden=!user;
+    unsubscribe();
+    resolve();
+  });
+});
+if(page==="loading"){
+  await new Promise(resolve=>setTimeout(resolve,1750));
+  document.getElementById("splash").classList.add("hide");
+  go(currentUser ? "home" : "login");
+}else{
+  document.getElementById("splash").classList.add("hide");
+}
+try{
+  if (page === "home") await renderHome();
+else if (page === "shop") await renderShop();
+else if (page === "book") await renderBook();
+else if (page === "login") await renderAuth(false);
+else if (page === "register") await renderAuth(true);
+else if (page === "forgot") await renderForgotPassword();
+else if (page === "library") await renderLibrary();
+else if (page === "checkout") await renderCheckout();
+else if (page === "reader") await renderReader();
+  else root.innerHTML=empty("Page not found. <a href='?page=home'>Go home</a>");
+}catch(error){
+  console.error(error);
+  root.innerHTML=`<section class="panel"><h2>Something went wrong</h2><p class="muted">${esc(error.message)}</p><p>Check your Firebase configuration, Firestore rules, and local PDF file paths, then refresh.</p></section>`;
+}
+</script>
+</body>
+</html>
