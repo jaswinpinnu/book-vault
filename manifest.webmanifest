@@ -1,11 +1,12 @@
 {
   "id": "./",
-  "name": "BookVault \u2014 Your Digital Bookshelf",
+  "name": "BookVault — Your Digital Bookshelf",
   "short_name": "BookVault",
   "description": "Discover, buy and read digital books with BookVault.",
   "start_url": "./?page=home",
   "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#1d1a14",
   "theme_color": "#1d1a14",
   "icons": [
@@ -13,13 +14,13 @@
       "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
