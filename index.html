@@ -1468,7 +1468,7 @@ root.innerHTML = `
     </section>
 </div>
 `;
-  document.getElementById("authForm").onsubmit=async e=>{e.preventDefault();const btn=document.getElementById("authBtn"),msg=document.getElementById("authMessage");btn.disabled=true;msg.textContent="";try{const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;if(register)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);go("library");}catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}};
+  document.getElementById("authForm").onsubmit=async e=>{e.preventDefault();const btn=document.getElementById("authBtn"),msg=document.getElementById("authMessage");btn.disabled=true;msg.textContent="";try{const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;if(register)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);go("home");}catch(err){msg.textContent=err.message;}finally{btn.disabled=false;}};
   const googleSignInBtn = document.getElementById("googleSignInBtn");
   if (googleSignInBtn) {
     googleSignInBtn.onclick = async () => {
@@ -1481,7 +1481,7 @@ root.innerHTML = `
         const provider = new GoogleAuthProvider();
         provider.setCustomParameters({ prompt: "select_account" });
         await signInWithPopup(auth, provider);
-        go("library");
+        go("home");
       } catch (err) {
         if (err.code === "auth/popup-closed-by-user") {
           msg.textContent = "Google sign-in was cancelled.";
