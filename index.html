@@ -958,6 +958,27 @@ button, .btn, .field { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Mobile hamburger menu: keep Logout inside the three-line menu. */
+@media (max-width: 700px) {
+  .navlinks.open {
+    max-height: calc(100vh - 80px);
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #logoutBtn:not([hidden]) {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 12px;
+    justify-content: flex-start;
+    border: 1px solid var(--gold);
+    background: #30271b;
+    color: var(--gold);
+  }
+}
 </style>
 </head>
 <body>
@@ -1015,7 +1036,18 @@ document.getElementById("menuBtn").onclick = () => {
   const expanded = document.getElementById("navlinks").classList.toggle("open");
   document.getElementById("menuBtn").setAttribute("aria-expanded", String(expanded));
 };
-document.getElementById("logoutBtn").onclick = async () => { await signOut(auth); go("home"); };
+document.getElementById("logoutBtn").onclick = async () => {
+  const button = document.getElementById("logoutBtn");
+  button.disabled = true;
+  try {
+    await signOut(auth);
+    go("login");
+  } catch (error) {
+    console.error("Logout failed:", error);
+    alert("Could not log out. Please try again.");
+    button.disabled = false;
+  }
+};
 const MANUAL_BOOKS = [
   {
     id: "mens fashions",
