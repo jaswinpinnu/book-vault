@@ -1612,36 +1612,18 @@ else if (page === "reader") await renderReader();
 }
 </script>
 
-<style>
-#installPwa { position:fixed;right:16px;bottom:16px;z-index:15;box-shadow:0 8px 30px #0009;display:none;max-width:calc(100vw - 32px) }
-#installPwa.visible {display:inline-flex}
-@media(max-width:600px){#installPwa{bottom:12px;right:12px;padding:11px 14px}}
-</style>
-<button id="installPwa" type="button" aria-label="Install BookVault app">⬇ Install BookVault</button>
+<!-- PWA: installation is handled by the browser menu. -->
 <script>
-(() => {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')
-      .catch(error => console.warn('Service worker registration failed:', error)));
-  }
-  let deferredInstall;
-  const installBtn = document.getElementById('installPwa');
-  window.addEventListener('beforeinstallprompt', event => {
-    event.preventDefault(); deferredInstall = event;
-    installBtn.classList.add('visible');
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("./sw.js");
+      console.log("BookVault PWA registered successfully");
+    } catch (error) {
+      console.error("Service worker registration failed:", error);
+    }
   });
-  installBtn.addEventListener('click', async () => {
-    if (!deferredInstall) return;
-    const promptEvent = deferredInstall;
-    deferredInstall = null;
-    installBtn.classList.remove('visible');
-    await promptEvent.prompt();
-  });
-  window.addEventListener('appinstalled', () => {
-    deferredInstall = null;
-    installBtn.classList.remove('visible');
-  });
-})();
+}
 </script>
 </body>
 </html>
