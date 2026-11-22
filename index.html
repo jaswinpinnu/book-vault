@@ -1008,6 +1008,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebas
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs";
+  import {
+    setPersistence,
+    browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDvAGMwZWs0Swe6voBnrgTEV5Sb0S6MXEQ",
   authDomain: "book-vault-39b48.firebaseapp.com",
@@ -1021,6 +1025,7 @@ const STORE_UPI_ID = "9704974080@ybl";
 const STORE_UPI_NAME = "BookVault";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+  await setPersistence(auth, browserLocalPersistence);
 const db = getFirestore(app);
 pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 const root = document.getElementById("app");
